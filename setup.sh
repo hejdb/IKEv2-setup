@@ -181,12 +181,16 @@ iptables -I INPUT -i "${ETH0ORSIMILAR}" -m state --state NEW -m recent --update 
 # accept (non-standard) SSH
 iptables -A INPUT -p tcp --dport "${SSHPORT}" -j ACCEPT
 
+#acme
+iptables -A INPUT -p udp --dport 80 -j ACCEPT
+iptables -A INPUT -p udp --dport 443 -j ACCEPT
 
 # VPN
 
 # accept IPSec/NAT-T for VPN (ESP not needed with forceencaps, as ESP goes inside UDP)
 iptables -A INPUT -p udp --dport  500 -j ACCEPT
 iptables -A INPUT -p udp --dport 4500 -j ACCEPT
+
 
 # forward VPN traffic anywhere
 iptables -A FORWARD --match policy --pol ipsec --dir in  --proto esp -s "${VPNIPPOOL}" -j ACCEPT
