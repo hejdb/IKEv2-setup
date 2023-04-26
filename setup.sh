@@ -182,8 +182,8 @@ iptables -I INPUT -i "${ETH0ORSIMILAR}" -m state --state NEW -m recent --update 
 iptables -A INPUT -p tcp --dport "${SSHPORT}" -j ACCEPT
 
 #acme
-iptables -A INPUT -p udp --dport 80 -j ACCEPT
-iptables -A INPUT -p udp --dport 443 -j ACCEPT
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+iptables -A INPUT -p tcp --dport 443 -j ACCEPT
 
 # VPN
 
