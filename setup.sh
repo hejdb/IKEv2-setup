@@ -95,8 +95,8 @@ echo
 echo "--- Configuration: general server settings ---"
 echo
 
-read -r -p "Timezone (default: Europe/London): " TZONE
-TZONE=${TZONE:-'Europe/London'}
+read -r -p "Timezone (default: America/Vancouver): " TZONE
+TZONE=${TZONE:-'America/Vancouver'}
 
 read -r -p "Email address for sysadmin (e.g. j.bloggs@example.com): " EMAILADDR
 
@@ -197,7 +197,7 @@ iptables -A FORWARD --match policy --pol ipsec --dir in  --proto esp -s "${VPNIP
 iptables -A FORWARD --match policy --pol ipsec --dir out --proto esp -d "${VPNIPPOOL}" -j ACCEPT
 
 # reduce MTU/MSS values for dumb VPN clients
-iptables -t mangle -A FORWARD --match policy --pol ipsec --dir in -s "${VPNIPPOOL}" -o "${ETH0ORSIMILAR}" -p tcp -m tcp --tcp-flags SYN,RST SYN -m tcpmss --mss 1361:1536 -j TCPMSS --set-mss 1360
+#iptables -t mangle -A FORWARD --match policy --pol ipsec --dir in -s "${VPNIPPOOL}" -o "${ETH0ORSIMILAR}" -p tcp -m tcp --tcp-flags SYN,RST SYN -m tcpmss --mss 1361:1536 -j TCPMSS --set-mss 1360
 
 # masquerade VPN traffic over eth0 etc.
 iptables -t nat -A POSTROUTING -s "${VPNIPPOOL}" -o "${ETH0ORSIMILAR}" -m policy --pol ipsec --dir out -j ACCEPT  # exempt IPsec traffic from masquerading
